@@ -1,8 +1,17 @@
 import Head from "next/head";
 import { AppProps } from "next/app";
 import "../styles/index.css";
+import { createWebsocket } from "../socket";
+import { useEffect } from "react";
+import { GameContext } from "../contexts/GameContext";
 
-function MyApp({ Component, pageProps }: AppProps) {
+const MyApp = ({ Component, pageProps }: AppProps) => {
+  useEffect(() => {
+    const socket = createWebsocket();
+
+    return () => socket.close();
+  }, []);
+
   return (
     <>
       <Head>
@@ -10,9 +19,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
 
-      <Component {...pageProps} />
+      <GameContext>
+        <Component {...pageProps} />
+      </GameContext>
     </>
   );
-}
+};
 
 export default MyApp;
