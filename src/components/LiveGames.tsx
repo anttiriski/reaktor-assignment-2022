@@ -1,17 +1,21 @@
 import useSWR from "swr";
 
-const Test = () => {
+const LiveGames = () => {
   const { data, error } = useSWR(
-    "api/games",
+    "api/live",
     (url) => fetch(url).then((res) => res.json()),
     { refreshInterval: 2000 }
   );
 
   return (
     <div className="flex items-center p-4 mx-auto min-h-screen justify-center">
-      hello
+      <div className="flex flex-col">
+        {data?.games.map((game) => {
+          return <div>{game.gameId}</div>;
+        })}
+      </div>
     </div>
   );
 };
 
-export default Test;
+export default LiveGames;

@@ -1,11 +1,11 @@
 import redis from "../../redis";
 
 export default async (req, res) => {
-  const { gameId, playerA, playerB, t } = JSON.parse(req.body);
+  const { gameId, playerA, playerB, timestamp } = JSON.parse(req.body);
 
-  console.log("nyt");
-
-  await redis.rpush("cache", JSON.stringify({ gameId, playerA, playerB }));
+  await redis.rename(`live:${gameId}`, gameId);
+  await redis.sadd("games", gameId);
+  await redis.srem("games-in-progress", gameId);
 
   res.end();
 };

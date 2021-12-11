@@ -2,22 +2,27 @@ import redis from "../../redis";
 
 export default async (req, res) => {
   let start = Date.now();
-  let cache = await redis.lrange("cache", 0, -1);
+  let gameHashes = await redis.smembers("games");
+
+  let games = await Promise.all(
+    gameHashes.map(async (hash) => {
+      let game = await redis.hgetall(hash);
+      return game;
+    })
+  );
 
   let result = {
-    data: null,
+    games: null,
     type: null,
     latency: null,
   };
 
-  if (cache) {
-    console.log("loading from cache");
-    result.data = cache;
+  if (gameHashes.length) {
+    result.games = games;
     result.type = "redis";
     result.latency = Date.now() - start;
     return res.status(200).json(result);
   } else {
-    console.log("loading from api");
     start = Date.now();
     return fetch("https://bad-api-assignment.reaktor.com/rps/history")
       .then((r) => r.json())
