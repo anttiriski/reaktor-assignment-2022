@@ -1,34 +1,18 @@
-import useSWR from "swr";
+import Games from "../components/Games";
 import LiveGames from "../components/LiveGames";
+import Navigation from "../components/Navigation";
 import redis from "../redis";
 
 const Home = () => {
-  const { data, error } = useSWR(
-    "api/history",
-    (url) => fetch(url).then((res) => res.json()),
-    { refreshInterval: 2000 }
-  );
-
   return (
-    <div className="flex flex-col items-center p-4 mx-auto min-h-screen justify-center">
-      <LiveGames />
+    <div className="flex">
+      <Navigation />
 
-      <main>
-        <h1 className="font-mono text-xl code">
-          Welcome to <span className="text-purple-700">Nextjs</span>,{" "}
-          <span className="text-indigo-700">TailwindCSS</span> and{" "}
-          <span className="text-gray-700">TypeScript</span>
-        </h1>
-        {data?.games.map((game) => {
-          return (
-            <>
-              <div>{game.gameId}:</div>
-              <div>{game.playerA}</div>
-              <div>{game.playerB}</div>
-            </>
-          );
-        })}
-      </main>
+      <Games />
+
+      {/* <PlayerStats /> */}
+
+      <LiveGames />
     </div>
   );
 };
@@ -39,7 +23,7 @@ export async function getServerSideProps(context) {
   const res = await fetch("https://bad-api-assignment.reaktor.com/rps/history");
   const { data } = await res.json();
 
-  await redis.flushall();
+  //await redis.flushall();
 
   const sortedByTime = data.sort((a, b) => {
     const aTime = new Date(a.t).getTime();
@@ -49,15 +33,15 @@ export async function getServerSideProps(context) {
 
   sortedByTime.forEach(async (game) => {
     const { gameId, playerA, playerB } = game;
-    const player1Move = playerA.played;
-    const player2Move = playerB.played;
+    const playerAMove = playerA.played;
+    const playerBMove = playerB.played;
 
-    if (player1Move === player2Move) {
+    if (playerAMove === playerBMove) {
       await redis.hset(gameId, "winner", "draw");
     } else if (
-      (player1Move === "rock" && player2Move === "scissors") ||
-      (player1Move === "scissors" && player2Move === "paper") ||
-      (player1Move === "paper" && player2Move === "rock")
+      (playerAMove === "rock" && playerBMove === "scissors") ||
+      (playerAMove === "scissors" && playerBMove === "paper") ||
+      (playerAMove === "paper" && playerBMove === "rock")
     ) {
       await redis.hset(gameId, "winner", playerA.name);
     } else {
@@ -73,10 +57,17 @@ export async function getServerSideProps(context) {
       "playerA",
       game.playerA.name,
       "playerB",
-      game.playerB.name
+      game.playerB.name,
+      "playerAMove",
+      playerAMove,
+      "playerBMove",
+      playerBMove
     );
 
     await redis.sadd("games", game.gameId);
+
+    await redis.sadd("players", game.playerA.name);
+    await redis.sadd("players", game.playerB.name);
   });
 
   return {

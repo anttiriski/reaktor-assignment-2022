@@ -1,5 +1,4 @@
 import { useState, useContext, createContext, useEffect } from "react";
-import useSWR from "swr";
 
 const initialState = {
   games: [],
