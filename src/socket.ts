@@ -26,6 +26,9 @@ const createWebsocket = () => {
 
       case "GAME_RESULT": {
         try {
+          const playerAMove = data.playerA.played;
+          const playerBMove = data.playerB.played;
+
           fetch("/api/finish-game", {
             method: "POST",
             body: JSON.stringify({
@@ -33,6 +36,8 @@ const createWebsocket = () => {
               playerA,
               playerB,
               timestamp: data.t,
+              playerAMove,
+              playerBMove,
             }),
           });
 
