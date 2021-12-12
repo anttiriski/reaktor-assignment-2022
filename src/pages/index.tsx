@@ -6,13 +6,9 @@ import redis from "../redis";
 const Home = () => {
   return (
     <div className="flex">
-      <Navigation />
-
       <Games />
 
       {/* <PlayerStats /> */}
-
-      <LiveGames />
     </div>
   );
 };
