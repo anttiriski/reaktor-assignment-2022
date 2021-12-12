@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import useSWR from "swr";
 import Game from "./Game";
 import LoadingWheel from "./LoadingWheel";
@@ -5,10 +6,20 @@ import Space from "./Space";
 
 const Games: React.FC = () => {
   const { data, error } = useSWR(
-    "/api/history",
+    "api/history",
     (url) => fetch(url).then((res) => res.json()),
     { refreshInterval: 2000 }
   );
+
+  // Sort games by timestamp
+
+  const sortedGames = useMemo(() => {
+    if (!data) return [];
+
+    return data.games.sort((a, b) => {
+      return b.timestamp - a.timestamp;
+    });
+  }, [data]);
 
   return (
     <div className="px-12 w-full">
@@ -22,7 +33,7 @@ const Games: React.FC = () => {
         </div>
       ) : (
         <div className="space-y-3">
-          {data?.games.map((game) => {
+          {sortedGames?.map((game) => {
             return <Game game={game} />;
           })}
         </div>

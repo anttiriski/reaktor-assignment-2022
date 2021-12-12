@@ -8,7 +8,7 @@ const Layout = ({ children }) => {
         <Navigation />
       </div>
 
-      <main className="w-full max-w-screen-xl mx-auto">{children}</main>
+      <main className="w-full max-w-screen-xl pl-20 mx-auto">{children}</main>
 
       <LiveGames />
     </main>

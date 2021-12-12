@@ -24,13 +24,7 @@ export async function getServerSideProps(context) {
 
   await redis.flushall();
 
-  const sortedByTime = data.sort((a, b) => {
-    const aTime = new Date(a.t).getTime();
-    const bTime = new Date(b.t).getTime();
-    return bTime - aTime;
-  });
-
-  sortedByTime.forEach(async (game) => {
+  data.forEach(async (game) => {
     const { gameId, playerA, playerB } = game;
     const playerAMove = playerA.played;
     const playerBMove = playerB.played;

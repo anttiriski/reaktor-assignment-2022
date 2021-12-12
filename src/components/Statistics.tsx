@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import useSWR from "swr";
 import { useGameState } from "../contexts/GameContext";
 import Game from "./Game";
@@ -9,8 +10,18 @@ const Statistics: React.FC = ({}) => {
 
   const { data, error } = useSWR(
     `/api/statistics?player=${selectedPlayer}`,
-    (url) => fetch(url).then((res) => res.json())
+    (url) => fetch(url).then((res) => res.json()),
+    { refreshInterval: 2000 }
   );
+
+  // Sort by timestamp
+  const sortedData = useMemo(() => {
+    if (!data) return [];
+
+    return data.allGames.sort((a, b) => {
+      return b.timestamp - a.timestamp;
+    });
+  }, [data]);
 
   if (!selectedPlayer) {
     return (

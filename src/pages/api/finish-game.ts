@@ -12,7 +12,9 @@ export default async (req, res) => {
     "playerAMove",
     playerAMove,
     "playerBMove",
-    playerBMove
+    playerBMove,
+    "timestamp",
+    timestamp
   );
   await redis.sadd("games", gameId);
   await redis.srem("games-in-progress", gameId);

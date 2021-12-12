@@ -1,9 +1,10 @@
 import { Game } from "../types/common";
+import { formatDistance } from "date-fns";
+import { useGameState } from "../contexts/GameContext";
 
 // Components
 import Link from "next/link";
 import PlayerMove from "./PlayerMove";
-import { useGameState } from "../contexts/GameContext";
 
 type GameProps = {
   game: Game;
@@ -13,35 +14,41 @@ const Game: React.FC<GameProps> = ({ game }) => {
   const { setSelectedPlayer } = useGameState();
 
   return (
-    <div className="flex space-x-2">
-      <div
-        onClick={() => setSelectedPlayer(game.playerA)}
-        className={`flex space-x-4 justify-end text-right basis-0 grow whitespace-nowrap ${
-          game.winner === "draw" || game.winner !== game.playerA
-            ? "opacity-50 text-sm"
-            : "font-bold"
-        }`}
-      >
-        <p className="cursor-pointer">{game.playerA}</p>
-      </div>
+    <div className="flex flex-col space-x-2 border-b pb-4">
+      <p className="text-xs text-center mb-2">
+        {formatDistance(new Date(Number(game.timestamp)), new Date())} ago
+      </p>
 
-      <div className="flex space-x-2 col-span-1">
-        <PlayerMove move={game.playerAMove} />
+      <div className="flex space-x-4">
+        <div
+          onClick={() => setSelectedPlayer(game.playerA)}
+          className={`flex justify-end text-right basis-0 grow whitespace-nowrap ${
+            game.winner === "draw" || game.winner !== game.playerA
+              ? "opacity-50 text-sm"
+              : "font-bold"
+          }`}
+        >
+          <p className="cursor-pointer">{game.playerA}</p>
+        </div>
 
-        <p>vs</p>
+        <div className="flex space-x-2 col-span-1">
+          <PlayerMove move={game.playerAMove} />
 
-        <PlayerMove move={game.playerBMove} />
-      </div>
+          <p>vs</p>
 
-      <div
-        onClick={() => setSelectedPlayer(game.playerB)}
-        className={`flex space-x-4 basis-0 grow whitespace-nowrap ${
-          game.winner === "draw" || game.winner !== game.playerB
-            ? "opacity-50 text-sm"
-            : "font-bold"
-        }`}
-      >
-        <p className="cursor-pointer">{game.playerB}</p>
+          <PlayerMove move={game.playerBMove} />
+        </div>
+
+        <div
+          onClick={() => setSelectedPlayer(game.playerB)}
+          className={`flex basis-0 grow whitespace-nowrap ${
+            game.winner === "draw" || game.winner !== game.playerB
+              ? "opacity-50 text-sm"
+              : "font-bold"
+          }`}
+        >
+          <p className="cursor-pointer">{game.playerB}</p>
+        </div>
       </div>
     </div>
   );
