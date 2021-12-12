@@ -10,44 +10,43 @@ const LiveGames = () => {
     { refreshInterval: 2000 }
   );
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   const handleClick = () => {
     setOpen(!open);
   };
 
   return open ? (
-    <div
-      onClick={handleClick}
-      className="flex flex-col rounded-2xl fixed right-0 bottom-0 border z-10 bg-white mb-14 mr-4 p-4 pb-10"
-    >
-      <h1 className="text-3xl font-bold text-center text-rose-500">
-        Live Games
-      </h1>
+    <div className="flex flex-col rounded-2xl fixed right-0 bottom-0 border z-10 bg-white mb-28 mr-4 p-4 pb-10">
+      <h1 className="text-3xl font-bold text-center">Live Games</h1>
 
       <Space />
 
       <div className="space-y-3">
-        {data?.games.map((game) => {
-          return (
-            <div className="flex space-x-3">
-              <div className="flex grow basis-0 justify-end text-right whitespace-nowrap">
-                {game.playerA}
-              </div>
+        {data?.games.length ? (
+          data?.games.map((game) => {
+            return (
+              <div className="flex space-x-3">
+                <div className="flex grow basis-0 justify-end text-right whitespace-nowrap">
+                  {game.playerA}
+                </div>
 
-              <p className="text-center">vs</p>
+                <p className="text-center">vs</p>
 
-              <div className="flex grow basis-0 whitespace-nowrap">
-                {game.playerB}
+                <div className="flex grow basis-0 whitespace-nowrap">
+                  {game.playerB}
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        ) : (
+          <p>No games are currently live.</p>
+        )}
       </div>
 
       <div
         onClick={handleClick}
-        className="fixed flex justify-center items-center right-0 bottom-0 mr-4 mb-4 w-20 h-20 rounded-full bg-rose-50 cursor-pointer -z-20"
+        className="fixed flex justify-center items-center right-0 bottom-0 mr-4 mb-4 w-20 h-20 rounded-full bg-white border cursor-pointer -z-20"
       >
         <TrophyIcon />
       </div>
@@ -55,7 +54,7 @@ const LiveGames = () => {
   ) : (
     <div
       onClick={handleClick}
-      className="fixed flex justify-center items-center right-0 bottom-0 mr-4 mb-4 w-20 h-20 rounded-full bg-rose-50 cursor-pointer"
+      className="fixed flex justify-center items-center right-0 bottom-0 mr-4 mb-4 w-20 h-20 rounded-full bg-white border cursor-pointer"
     >
       <TrophyIcon />
     </div>

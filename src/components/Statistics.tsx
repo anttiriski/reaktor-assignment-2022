@@ -56,15 +56,19 @@ const Statistics: React.FC = ({}) => {
 
       <Space size={8} />
 
-      <h1 className="text-3xl font-bold">Game history</h1>
+      <h1 className="text-3xl font-bold">Played games</h1>
 
-      <Space />
+      <Space size={4} />
 
       <div className="space-y-2">
         {data?.allGames.map((game) => (
           <Game game={game} />
         ))}
       </div>
+
+      <Space />
+
+      <p className="text-center text-xs">No more games...</p>
     </div>
   );
 };

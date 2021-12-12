@@ -3,8 +3,16 @@ type SpaceProps = {
 };
 
 const Space: React.FC<SpaceProps> = ({ size = 4 }) => {
-  const classes = `w-full mt-${size}`;
-  return <div className={classes} />;
+  switch (size) {
+    case 2:
+      return <div className="w-full mt-2" />;
+    case 4:
+      return <div className="w-full mt-4" />;
+    case 8:
+      return <div className="w-full mt-8" />;
+    default:
+      return <div className="w-full mt-4" />;
+  }
 };
 
 export default Space;
