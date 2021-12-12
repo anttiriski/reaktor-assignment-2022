@@ -17,8 +17,10 @@ const LiveGames = () => {
   };
 
   return open ? (
-    <div className="flex flex-col rounded-2xl fixed right-0 bottom-0 border z-10 bg-white mb-20 sm:mb-28 mx-4 p-4 pb-10">
-      <h1 className="text-3xl font-bold text-center">Live Games</h1>
+    <div className="flex flex-col rounded-2xl fixed right-0 bottom-0 border z-10 bg-white mb-20 sm:mb-28 mx-4 p-4 pb-10 shadow">
+      <h1 className="text-3xl font-bold text-center text-gradient">
+        Live Games
+      </h1>
 
       <Space />
 

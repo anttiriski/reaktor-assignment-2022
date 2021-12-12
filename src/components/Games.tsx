@@ -23,7 +23,9 @@ const Games: React.FC = () => {
 
   return (
     <div className="px-4 lg:px-8 w-full mb-20 mt-12 lg:max-w-full max-w-2xl mx-auto">
-      <h1 className="font-mono text-3xl font-bold text-center">Game history</h1>
+      <h1 className="font-mono text-3xl font-bold text-center text-gradient">
+        Game history
+      </h1>
 
       <Space />
 

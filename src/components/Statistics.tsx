@@ -15,7 +15,7 @@ const Statistics: React.FC = ({}) => {
 
   return (
     <div className="px-4 lg:px-8 w-full lg:overflow-auto scrollbar-hide lg:pb-20">
-      <h1 className="text-3xl font-bold pt-12 text-center lg:text-left">
+      <h1 className="text-3xl font-bold pt-12 text-center lg:text-left text-gradient">
         Statistics: {selectedPlayer}
       </h1>
 
@@ -42,7 +42,7 @@ const Statistics: React.FC = ({}) => {
 
           <Space size={8} />
 
-          <h1 className="text-3xl font-bold text-center lg:text-left">
+          <h1 className="text-3xl font-bold text-center text-gradient lg:text-left">
             Played games
           </h1>
 
