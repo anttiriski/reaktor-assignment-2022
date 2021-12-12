@@ -39,7 +39,7 @@ const Statistics: React.FC = ({}) => {
 
             <div className="border w-full h-full rounded-xl p-4 flex flex-col items-start sm:flex-row sm:items-center sm:space-x-2">
               <p className="font-bold">Win ratio:</p>
-              <p>{Math.round(data?.winPercentage)}%</p>
+              <p>{data ? Math.round(data?.winPercentage) : 0}%</p>
             </div>
 
             <div className="border w-full h-full rounded-xl p-4 flex flex-col items-start sm:flex-row sm:items-center sm:space-x-2">
