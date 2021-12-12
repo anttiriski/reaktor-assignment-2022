@@ -1,7 +1,7 @@
+import { useRouter } from "next/router";
+import Link from "next/link";
 import GameIcon from "../icons/GameIcon";
 import UserIcon from "../icons/UserIcon";
-import Link from "next/link";
-import { useRouter } from "next/router";
 
 const Navigation: React.FC = () => {
   const router = useRouter();

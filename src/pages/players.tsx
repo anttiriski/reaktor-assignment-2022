@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import { useGameState } from "../contexts/GameContext";
 import useSWR from "swr";
 import LoadingWheel from "../components/LoadingWheel";
@@ -7,7 +6,6 @@ import Link from "next/link";
 import UserIcon from "../icons/UserIcon";
 
 const PlayersPage: React.FC = () => {
-  const router = useRouter();
   const { setSelectedPlayer } = useGameState();
 
   const { data, error } = useSWR("api/players", (url) =>

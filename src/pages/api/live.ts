@@ -1,22 +1,21 @@
+import { NextApiRequest, NextApiResponse } from "next";
+import { GameHelper } from "../../utils/GameHelper";
 import redis from "../../redis";
 
-export default async (req, res) => {
-  let gamesInProgressHashes = await redis.smembers("games-in-progress");
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+  try {
+    const gameHashes = await redis.smembers("games-in-progress");
 
-  let gamesInProgress = await Promise.all(
-    gamesInProgressHashes.map(async (hash) => {
-      let game = await redis.hgetall(`live:${hash}`);
-      return game;
-    })
-  );
+    const games = await GameHelper.getGames({ gameHashes, prefix: "live" });
 
-  let result = {
-    games: null,
-    type: null,
-    latency: null,
-  };
+    let result = {
+      games: null,
+      latency: null,
+    };
 
-  result.games = gamesInProgress;
-  result.type = "redis";
-  return res.status(200).json(result);
+    result.games = games;
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
 };

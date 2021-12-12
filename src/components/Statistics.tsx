@@ -1,8 +1,8 @@
-import { useMemo } from "react";
 import { useGameState } from "../contexts/GameContext";
 import useSWR from "swr";
 import Game from "./Game";
 import Space from "./Space";
+import { useMemo } from "react";
 
 const Statistics: React.FC = ({}) => {
   const { selectedPlayer } = useGameState();
@@ -12,6 +12,14 @@ const Statistics: React.FC = ({}) => {
     (url) => fetch(url).then((res) => res.json()),
     { refreshInterval: 2000 }
   );
+
+  const sortedGames = useMemo(() => {
+    if (!data) return [];
+
+    return data.allGames.sort((a, b) => {
+      return b.timestamp - a.timestamp;
+    });
+  }, [data]);
 
   return (
     <div className="px-4 lg:px-8 w-full lg:overflow-auto scrollbar-hide lg:pb-20">
@@ -31,7 +39,7 @@ const Statistics: React.FC = ({}) => {
 
             <div className="border w-full h-full rounded-xl p-4 flex flex-col items-start sm:flex-row sm:items-center sm:space-x-2">
               <p className="font-bold">Win ratio:</p>
-              <p>{Math.round(data?.winProsentage)}%</p>
+              <p>{Math.round(data?.winPercentage)}%</p>
             </div>
 
             <div className="border w-full h-full rounded-xl p-4 flex flex-col items-start sm:flex-row sm:items-center sm:space-x-2">
@@ -49,7 +57,7 @@ const Statistics: React.FC = ({}) => {
           <Space size={4} />
 
           <div className="space-y-2">
-            {data?.allGames.map((game) => (
+            {sortedGames.map((game) => (
               <Game game={game} />
             ))}
           </div>

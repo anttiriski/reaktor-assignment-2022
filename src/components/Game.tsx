@@ -3,7 +3,7 @@ import { formatDistance } from "date-fns";
 import { useGameState } from "../contexts/GameContext";
 
 // Components
-import PlayerMove from "./PlayerMove";
+import PlayerMoveIcon from "./PlayerMoveIcon";
 
 type GameProps = {
   game: GameType;
@@ -31,11 +31,11 @@ const Game: React.FC<GameProps> = ({ game }) => {
         </div>
 
         <div className="flex space-x-2 col-span-1">
-          <PlayerMove move={game.playerAMove} />
+          <PlayerMoveIcon move={game.playerAMove} />
 
           <p>vs</p>
 
-          <PlayerMove move={game.playerBMove} />
+          <PlayerMoveIcon move={game.playerBMove} />
         </div>
 
         <div

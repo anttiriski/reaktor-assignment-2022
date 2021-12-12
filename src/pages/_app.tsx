@@ -1,14 +1,14 @@
-import Head from "next/head";
-import { AppProps } from "next/app";
-import "../styles/index.css";
-import { createWebsocket } from "../socket";
+import { createWebSocket } from "../socket";
 import { useEffect } from "react";
 import { GameContext } from "../contexts/GameContext";
-import Layout from "../components/Layout";
+import { AppProps } from "next/app";
+import Layout from "../layouts/Layout";
+import Head from "next/head";
+import "../styles/index.css";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {
-    const socket = createWebsocket();
+    const socket = createWebSocket();
 
     return () => socket.close();
   }, []);

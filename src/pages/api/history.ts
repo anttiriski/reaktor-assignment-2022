@@ -1,36 +1,25 @@
+import { GameHelper } from "../../utils/GameHelper";
+import { NextApiRequest, NextApiResponse } from "next";
 import redis from "../../redis";
 
-export default async (req, res) => {
-  let start = Date.now();
-  let gameHashes = await redis.smembers("games");
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+  try {
+    const start = Date.now();
+    const gameHashes = await redis.smembers("games");
 
-  let games = await Promise.all(
-    gameHashes.map(async (hash) => {
-      let game = await redis.hgetall(hash);
-      return game;
-    })
-  );
+    const games = await GameHelper.getGames({ gameHashes });
 
-  let result = {
-    games: null,
-    type: null,
-    latency: null,
-  };
+    const result = {
+      games: null,
+      latency: null,
+    };
 
-  if (gameHashes.length) {
-    result.games = games;
-    result.type = "redis";
-    result.latency = Date.now() - start;
-    return res.status(200).json(result);
-  } else {
-    start = Date.now();
-    return fetch("https://bad-api-assignment.reaktor.com/rps/history")
-      .then((r) => r.json())
-      .then(({ data }) => {
-        result.type = "api";
-        result.latency = Date.now() - start;
-        redis.set("cache", JSON.stringify(data));
-        return res.status(200).json(result);
-      });
+    if (gameHashes.length) {
+      result.games = games;
+      result.latency = Date.now() - start;
+      return res.status(200).json(result);
+    }
+  } catch (error) {
+    console.log(error);
   }
 };

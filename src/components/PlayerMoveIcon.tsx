@@ -6,7 +6,7 @@ type PlayerMoveProps = {
   move: "SCISSORS" | "ROCK" | "PAPER";
 };
 
-const PlayerMove: React.FC<PlayerMoveProps> = ({ move }) => {
+const PlayerMoveIcon: React.FC<PlayerMoveProps> = ({ move }) => {
   switch (move) {
     case "SCISSORS":
       return (
@@ -34,4 +34,4 @@ const PlayerMove: React.FC<PlayerMoveProps> = ({ move }) => {
   }
 };
 
-export default PlayerMove;
+export default PlayerMoveIcon;

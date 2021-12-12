@@ -11,8 +11,6 @@ const Games: React.FC = () => {
     { refreshInterval: 2000 }
   );
 
-  // Sort games by timestamp
-
   const sortedGames = useMemo(() => {
     if (!data) return [];
 

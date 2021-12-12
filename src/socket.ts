@@ -1,4 +1,4 @@
-const createWebsocket = () => {
+const createWebSocket = () => {
   if (typeof window === "undefined") return;
 
   let ws = new WebSocket("ws://bad-api-assignment.reaktor.com/rps/live");
@@ -6,19 +6,15 @@ const createWebsocket = () => {
   ws.onmessage = async (message) => {
     const data = JSON.parse(JSON.parse(message.data));
 
-    const gameId = data.gameId;
-    const playerA = data.playerA;
-    const playerB = data.playerB;
+    const { type, gameId, playerA, playerB } = data;
 
-    switch (data.type) {
+    switch (type) {
       case "GAME_BEGIN": {
         try {
-          fetch("/api/begin-game", {
+          return await fetch("/api/begin-game", {
             method: "POST",
             body: JSON.stringify({ gameId, playerA, playerB }),
           });
-
-          return;
         } catch (error) {
           console.log(error);
         }
@@ -29,7 +25,7 @@ const createWebsocket = () => {
           const playerAMove = data.playerA.played;
           const playerBMove = data.playerB.played;
 
-          fetch("/api/finish-game", {
+          return await fetch("/api/finish-game", {
             method: "POST",
             body: JSON.stringify({
               gameId,
@@ -40,8 +36,6 @@ const createWebsocket = () => {
               playerBMove,
             }),
           });
-
-          return;
         } catch (error) {
           console.log(error);
         }
@@ -55,4 +49,4 @@ const createWebsocket = () => {
   return ws;
 };
 
-export { createWebsocket };
+export { createWebSocket };

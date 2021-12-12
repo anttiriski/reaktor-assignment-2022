@@ -1,5 +1,5 @@
-import LiveGames from "./LiveGames";
-import Navigation from "./Navigation";
+import LiveGames from "../components/LiveGames";
+import Navigation from "../components/Navigation";
 
 const Layout = ({ children }) => {
   return (

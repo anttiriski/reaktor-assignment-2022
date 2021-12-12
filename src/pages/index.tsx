@@ -1,6 +1,7 @@
 import redis from "../redis";
 import Games from "../components/Games";
 import Statistics from "../components/Statistics";
+import { GameHelper } from "../utils/GameHelper";
 
 const Home: React.FC = () => {
   return (
@@ -26,41 +27,30 @@ export async function getServerSideProps(context) {
 
   data.forEach(async (game) => {
     const { gameId, playerA, playerB } = game;
-    const playerAMove = playerA.played;
-    const playerBMove = playerB.played;
 
-    if (playerAMove === playerBMove) {
-      await redis.hset(gameId, "winner", "draw");
-    } else if (
-      (playerAMove === "ROCK" && playerBMove === "SCISSORS") ||
-      (playerAMove === "SCISSORS" && playerBMove === "PAPER") ||
-      (playerAMove === "PAPER" && playerBMove === "ROCK")
-    ) {
-      await redis.hset(gameId, "winner", playerA.name);
-    } else {
-      await redis.hset(gameId, "winner", playerB.name);
-    }
+    const winner = await GameHelper.getWinner({ playerA, playerB });
 
     await redis.hmset(
-      game.gameId,
+      gameId,
       "gameId",
-      game.gameId,
+      gameId,
       "timestamp",
       game.t,
       "playerA",
-      game.playerA.name,
+      playerA.name,
       "playerB",
-      game.playerB.name,
+      playerB.name,
       "playerAMove",
-      playerAMove,
+      playerA.played,
       "playerBMove",
-      playerBMove
+      playerB.played,
+      "winner",
+      winner
     );
 
-    await redis.sadd("games", game.gameId);
-
-    await redis.sadd("players", game.playerA.name);
-    await redis.sadd("players", game.playerB.name);
+    await redis.sadd("games", gameId);
+    await redis.sadd("players", playerA.name);
+    await redis.sadd("players", playerB.name);
   });
 
   return {
