@@ -22,7 +22,7 @@ const Games: React.FC = () => {
   }, [data]);
 
   return (
-    <div className="px-12 w-full">
+    <div className="px-12 w-full mb-20">
       <h1 className="font-mono text-3xl font-bold text-center">Game history</h1>
 
       <Space />
@@ -32,11 +32,17 @@ const Games: React.FC = () => {
           <LoadingWheel />
         </div>
       ) : (
-        <div className="space-y-3">
-          {sortedGames?.map((game) => {
-            return <Game game={game} />;
-          })}
-        </div>
+        <>
+          <div className="space-y-3">
+            {sortedGames?.map((game) => {
+              return <Game game={game} />;
+            })}
+          </div>
+
+          <Space />
+
+          <p className="text-xs text-center">No more games...</p>
+        </>
       )}
     </div>
   );

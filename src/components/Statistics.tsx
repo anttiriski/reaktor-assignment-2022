@@ -23,52 +23,52 @@ const Statistics: React.FC = ({}) => {
     });
   }, [data]);
 
-  if (!selectedPlayer) {
-    return (
-      <p className="text-sm text-gray-500 pt-12">
-        Select a player to view stats...
-      </p>
-    );
-  }
-
   return (
     <div>
       <h1 className="text-3xl font-bold pt-12">Statistics: {selectedPlayer}</h1>
 
       <Space />
 
-      <div className="grid grid-cols-2 grid-rows-2 gap-4">
-        <div className="border w-full h-full rounded-xl p-4 flex items-center space-x-2">
-          <p className="font-bold">Total games:</p>
-          <p>{data?.allGames.length}</p>
-        </div>
+      {selectedPlayer ? (
+        <>
+          <div className="grid grid-cols-2 grid-rows-2 gap-4">
+            <div className="border w-full h-full rounded-xl p-4 flex items-center space-x-2">
+              <p className="font-bold">Total games:</p>
+              <p>{data?.allGames.length}</p>
+            </div>
 
-        <div className="border w-full h-full rounded-xl p-4 flex items-center space-x-2">
-          <p className="font-bold">Win ratio:</p>
-          <p>{Math.round(data?.winProsentage)}%</p>
-        </div>
+            <div className="border w-full h-full rounded-xl p-4 flex items-center space-x-2">
+              <p className="font-bold">Win ratio:</p>
+              <p>{Math.round(data?.winProsentage)}%</p>
+            </div>
 
-        <div className="border w-full h-full rounded-xl p-4 flex items-center space-x-2">
-          <p className="font-bold">Most played move:</p>
-          <p>{data?.mostPlayedMove}</p>
-        </div>
-      </div>
+            <div className="border w-full h-full rounded-xl p-4 flex items-center space-x-2">
+              <p className="font-bold">Most played move:</p>
+              <p>{data?.mostPlayedMove}</p>
+            </div>
+          </div>
 
-      <Space size={8} />
+          <Space size={8} />
 
-      <h1 className="text-3xl font-bold">Played games</h1>
+          <h1 className="text-3xl font-bold">Played games</h1>
 
-      <Space size={4} />
+          <Space size={4} />
 
-      <div className="space-y-2">
-        {data?.allGames.map((game) => (
-          <Game game={game} />
-        ))}
-      </div>
+          <div className="space-y-2">
+            {data?.allGames.map((game) => (
+              <Game game={game} />
+            ))}
+          </div>
 
-      <Space />
+          <Space />
 
-      <p className="text-center text-xs">No more games...</p>
+          <p className="text-center text-xs">No more games...</p>
+        </>
+      ) : (
+        <p className="text-sm text-gray-500">
+          Select a player to view stats...
+        </p>
+      )}
     </div>
   );
 };
