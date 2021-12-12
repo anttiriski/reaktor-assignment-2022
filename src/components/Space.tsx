@@ -1,5 +1,5 @@
 type SpaceProps = {
-  size?: "2" | "4" | "8";
+  size?: 2 | 4 | 8;
 };
 
 const Space: React.FC<SpaceProps> = ({ size = 4 }) => {

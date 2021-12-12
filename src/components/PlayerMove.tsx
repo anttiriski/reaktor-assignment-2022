@@ -9,13 +9,25 @@ type PlayerMoveProps = {
 const PlayerMove: React.FC<PlayerMoveProps> = ({ move }) => {
   switch (move) {
     case "SCISSORS":
-      return <ScissorsIcon />;
+      return (
+        <div>
+          <ScissorsIcon />
+        </div>
+      );
 
     case "ROCK":
-      return <RockIcon />;
+      return (
+        <div>
+          <RockIcon />
+        </div>
+      );
 
     case "PAPER":
-      return <PaperIcon />;
+      return (
+        <div>
+          <PaperIcon />
+        </div>
+      );
 
     default:
       return <div>Unknown move</div>;

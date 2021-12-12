@@ -5,10 +5,10 @@ import redis from "../redis";
 
 const Home = () => {
   return (
-    <div className="flex">
+    <div>
       <Games />
 
-      {/* <PlayerStats /> */}
+      {/* <Stats /> */}
     </div>
   );
 };
@@ -19,7 +19,7 @@ export async function getServerSideProps(context) {
   const res = await fetch("https://bad-api-assignment.reaktor.com/rps/history");
   const { data } = await res.json();
 
-  //await redis.flushall();
+  await redis.flushall();
 
   const sortedByTime = data.sort((a, b) => {
     const aTime = new Date(a.t).getTime();
@@ -35,9 +35,9 @@ export async function getServerSideProps(context) {
     if (playerAMove === playerBMove) {
       await redis.hset(gameId, "winner", "draw");
     } else if (
-      (playerAMove === "rock" && playerBMove === "scissors") ||
-      (playerAMove === "scissors" && playerBMove === "paper") ||
-      (playerAMove === "paper" && playerBMove === "rock")
+      (playerAMove === "ROCK" && playerBMove === "SCISSORS") ||
+      (playerAMove === "SCISSORS" && playerBMove === "PAPER") ||
+      (playerAMove === "PAPER" && playerBMove === "ROCK")
     ) {
       await redis.hset(gameId, "winner", playerA.name);
     } else {
