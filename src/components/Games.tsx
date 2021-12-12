@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { useMemo } from "react";
 import useSWR from "swr";
 import Game from "./Game";
@@ -10,6 +11,21 @@ const Games: React.FC = () => {
     (url) => fetch(url).then((res) => res.json()),
     { refreshInterval: 2000 }
   );
+
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.025,
+      },
+    },
+  };
+
+  const item = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1 },
+  };
 
   const sortedGames = useMemo(() => {
     if (!data) return [];
@@ -33,11 +49,20 @@ const Games: React.FC = () => {
         </div>
       ) : (
         <>
-          <div className="space-y-3">
+          <motion.div
+            variants={container}
+            initial="hidden"
+            animate="show"
+            className="space-y-3"
+          >
             {sortedGames?.map((game) => {
-              return <Game game={game} />;
+              return (
+                <motion.div key={game.gameId} variants={item}>
+                  <Game game={game} />
+                </motion.div>
+              );
             })}
-          </div>
+          </motion.div>
 
           <Space />
 

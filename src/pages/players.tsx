@@ -17,7 +17,7 @@ const PlayersPage: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col pt-12 px-8">
+    <div className="flex flex-col pt-12 sm:ml-20 px-8">
       <h1 className="text-3xl font-bold text-gradient">Players</h1>
 
       <Space />
