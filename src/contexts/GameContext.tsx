@@ -1,18 +1,21 @@
 import { useState, useContext, createContext, useEffect } from "react";
 
 const initialState = {
-  games: [],
+  selectedPlayer: null,
 };
 
 const gameContext = createContext(undefined);
 
 export function GameContext({ children }) {
-  const [games, setGames] = useState(initialState.games);
+  const [selectedPlayer, setSelectedPlayer] = useState(
+    initialState.selectedPlayer
+  );
 
   return (
     <gameContext.Provider
       value={{
-        games,
+        selectedPlayer,
+        setSelectedPlayer,
       }}
     >
       {children}

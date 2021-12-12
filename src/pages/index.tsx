@@ -1,14 +1,17 @@
-import Games from "../components/Games";
-import LiveGames from "../components/LiveGames";
-import Navigation from "../components/Navigation";
 import redis from "../redis";
+import Games from "../components/Games";
+import Statistics from "../components/Statistics";
 
-const Home = () => {
+const Home: React.FC = () => {
   return (
-    <div>
-      <Games />
+    <div className="flex">
+      <div className="mt-12 w-full">
+        <Games />
+      </div>
 
-      {/* <Stats /> */}
+      <div className="sticky top-0 h-full w-full">
+        <Statistics />
+      </div>
     </div>
   );
 };
