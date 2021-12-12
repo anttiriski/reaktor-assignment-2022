@@ -4,13 +4,13 @@ import Statistics from "../components/Statistics";
 
 const Home: React.FC = () => {
   return (
-    <div className="flex h-screen">
-      <div className="pt-12 w-full overflow-auto scrollbar-hide">
-        <Games />
+    <div className="flex h-screen flex-col lg:flex-row-reverse">
+      <div className="w-full lg:overflow-auto scrollbar-hide">
+        <Statistics />
       </div>
 
-      <div className="h-full w-full overflow-auto scrollbar-hide">
-        <Statistics />
+      <div className="w-full lg:overflow-auto scrollbar-hide">
+        <Games />
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 export type GameMove = "ROCK" | "PAPER" | "SCISSORS";
 
-export type Game = {
+export type GameType = {
   gameId: string;
   playerA: string;
   playerB: string;

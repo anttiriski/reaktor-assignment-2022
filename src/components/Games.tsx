@@ -22,7 +22,7 @@ const Games: React.FC = () => {
   }, [data]);
 
   return (
-    <div className="px-12 w-full mb-20">
+    <div className="px-4 lg:px-8 w-full mb-20 mt-12 lg:max-w-full max-w-2xl mx-auto">
       <h1 className="font-mono text-3xl font-bold text-center">Game history</h1>
 
       <Space />
@@ -41,7 +41,7 @@ const Games: React.FC = () => {
 
           <Space />
 
-          <p className="text-xs text-center">No more games...</p>
+          <p className="text-xs text-center pb-20">No more games...</p>
         </>
       )}
     </div>

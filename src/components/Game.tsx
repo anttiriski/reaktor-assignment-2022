@@ -1,13 +1,12 @@
-import { Game } from "../types/common";
+import { GameType } from "../types/common";
 import { formatDistance } from "date-fns";
 import { useGameState } from "../contexts/GameContext";
 
 // Components
-import Link from "next/link";
 import PlayerMove from "./PlayerMove";
 
 type GameProps = {
-  game: Game;
+  game: GameType;
 };
 
 const Game: React.FC<GameProps> = ({ game }) => {
@@ -22,13 +21,13 @@ const Game: React.FC<GameProps> = ({ game }) => {
       <div className="flex space-x-4">
         <div
           onClick={() => setSelectedPlayer(game.playerA)}
-          className={`flex justify-end text-right basis-0 grow whitespace-nowrap ${
+          className={`flex justify-end text-right basis-0 grow md:whitespace-nowrap ${
             game.winner === "draw" || game.winner !== game.playerA
               ? "opacity-50 text-sm"
               : "font-bold"
           }`}
         >
-          <p className="cursor-pointer">{game.playerA}</p>
+          <p className="cursor-pointer text-sm sm:text-base">{game.playerA}</p>
         </div>
 
         <div className="flex space-x-2 col-span-1">
@@ -41,13 +40,13 @@ const Game: React.FC<GameProps> = ({ game }) => {
 
         <div
           onClick={() => setSelectedPlayer(game.playerB)}
-          className={`flex basis-0 grow whitespace-nowrap ${
+          className={`flex basis-0 grow md:whitespace-nowrap ${
             game.winner === "draw" || game.winner !== game.playerB
               ? "opacity-50 text-sm"
               : "font-bold"
           }`}
         >
-          <p className="cursor-pointer">{game.playerB}</p>
+          <p className="cursor-pointer text-sm sm:text-base">{game.playerB}</p>
         </div>
       </div>
     </div>

@@ -7,7 +7,7 @@ const Navigation: React.FC = () => {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col px-4 pt-20 space-y-6 items-center w-full">
+    <div className="sm:left-0 sm:h-screen sm:w-20 sm:space-x-0 sm:justify-start sm:pt-20 sm:space-y-6 sm:flex-col justify-center bg-white space-x-4 py-4 z-10 flex px-4 items-center w-full sm:border-x fixed bottom-0 border-t sm:border-t-0">
       <Link href="/">
         <div
           className={`p-2 rounded-lg cursor-pointer ${
