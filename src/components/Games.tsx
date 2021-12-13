@@ -1,36 +1,47 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useMemo } from "react";
-import useSWR from "swr";
+import { useMemo, useState } from "react";
+import useSWR, { useSWRConfig } from "swr";
+import useSWRInfinite from "swr/infinite";
 import Game from "./Game";
 import LoadingWheel from "./LoadingWheel";
 import Space from "./Space";
 
 const Games: React.FC = () => {
-  const { data, error } = useSWR(
-    "api/history",
+  const [cursor, setCursor] = useState(undefined);
+
+  const getKey = (pageIndex, previousPageData) => {
+    // reached the end
+    if (previousPageData && !previousPageData.games) return null;
+
+    // first page, we don't have `previousPageData`
+    if (pageIndex === 0) return "api/history";
+
+    // add the cursor to the API endpoint
+    return `api/history?cursor=${previousPageData.nextCursor}`;
+  };
+
+  const { data, error, mutate, size, setSize, isValidating } = useSWRInfinite(
+    getKey,
     (url) => fetch(url).then((res) => res.json()),
-    { refreshInterval: 2000 }
+    { initialSize: 1, refreshInterval: 2000 }
   );
 
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.025,
-      },
-    },
-  };
+  console.log(data);
 
-  const item = {
-    hidden: { opacity: 0 },
-    show: { opacity: 1 },
-  };
+  const isLoadingInitialData = !data && !error;
+  const isLoadingMore =
+    isLoadingInitialData ||
+    (size > 0 && data && typeof data[size - 1] === "undefined");
+  const isEmpty = data?.[0]?.length === 0;
+  const isReachingEnd = isEmpty || (data && data[data.length - 1]?.length < 6);
+  const isRefreshing = isValidating && data && data.length === size;
 
   const sortedGames = useMemo(() => {
     if (!data) return [];
 
-    return data.games.sort((a, b) => {
+    const allGames = data.flatMap((page) => page.games);
+
+    return allGames.sort((a, b) => {
       return b.timestamp - a.timestamp;
     });
   }, [data]);
@@ -49,24 +60,26 @@ const Games: React.FC = () => {
         </div>
       ) : (
         <>
-          <motion.div
-            variants={container}
-            initial="hidden"
-            animate="show"
-            className="space-y-3"
-          >
+          <div className="space-y-3">
             {sortedGames?.map((game) => {
               return (
-                <motion.div key={game.gameId} variants={item}>
+                <motion.div key={game.gameId}>
                   <Game game={game} />
                 </motion.div>
               );
             })}
-          </motion.div>
+          </div>
 
           <Space />
 
-          <p className="text-xs text-center pb-20">No more games...</p>
+          <div className="flex justify-center mb-20">
+            <p
+              onClick={() => setSize(size + 1)}
+              className="text-xs text-center cursor-pointer border px-4 py-4 rounded-xl"
+            >
+              Load more games
+            </p>
+          </div>
         </>
       )}
     </div>

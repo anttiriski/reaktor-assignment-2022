@@ -15,7 +15,10 @@ const Game: React.FC<GameProps> = ({ game }) => {
   return (
     <div className="flex flex-col space-x-2 border-b pb-4">
       <p className="text-xs text-center mb-2">
-        {formatDistance(new Date(Number(game?.timestamp)), new Date())} ago
+        {game?.timestamp
+          ? formatDistance(new Date(Number(game?.timestamp)), new Date())
+          : null}{" "}
+        ago
       </p>
 
       <div className="flex space-x-4">

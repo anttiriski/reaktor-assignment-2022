@@ -6,17 +6,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { player } = req.query;
 
-    const gameHashes = await redis.smembers("games");
+    const gameHashes = await redis.smembers(`games:${player}`);
 
     const games = await GameHelper.getGames({ gameHashes });
 
-    const allGames = games.filter(
-      (game) => game.playerA === player || game.playerB === player
-    );
+    const gamesWon = games.filter((game) => game.winner === player);
 
-    const gamesWon = allGames.filter((game) => game.winner === player);
-
-    const playedHands = allGames.reduce((acc: string[], game) => {
+    const playedHands = games.reduce((acc: string[], game) => {
       if (game.playerA === player) {
         return [...acc, game.playerAMove];
       } else {
@@ -27,10 +23,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const mostPlayedMove = GameHelper.mode(playedHands);
 
     const result = {
-      allGames,
+      allGames: games,
       gamesWon,
       mostPlayedMove,
-      winPercentage: (gamesWon.length / allGames.length) * 100,
+      winPercentage: (gamesWon.length / games.length) * 100,
     };
 
     return res.status(200).json(result);

@@ -25,7 +25,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       winner
     );
 
-    await redis.sadd("games", gameId);
+    await redis.sadd("games:0", gameId);
     await redis.srem("games-in-progress", gameId);
 
     res.end();
