@@ -1,14 +1,11 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { useMemo, useState } from "react";
-import useSWR, { useSWRConfig } from "swr";
+import { motion } from "framer-motion";
+import { useMemo } from "react";
 import useSWRInfinite from "swr/infinite";
 import Game from "./Game";
 import LoadingWheel from "./LoadingWheel";
 import Space from "./Space";
 
 const Games: React.FC = () => {
-  const [cursor, setCursor] = useState(undefined);
-
   const getKey = (pageIndex, previousPageData) => {
     if (previousPageData && !previousPageData.games) return null;
 
@@ -17,19 +14,11 @@ const Games: React.FC = () => {
     return `api/history?cursor=${previousPageData.nextCursor}`;
   };
 
-  const { data, error, mutate, size, setSize, isValidating } = useSWRInfinite(
+  const { data, size, setSize, isValidating } = useSWRInfinite(
     getKey,
     (url) => fetch(url).then((res) => res.json()),
-    { initialSize: 1, refreshInterval: 2000 }
+    { initialSize: 1, refreshInterval: 1500 }
   );
-
-  const isLoadingInitialData = !data && !error;
-  const isLoadingMore =
-    isLoadingInitialData ||
-    (size > 0 && data && typeof data[size - 1] === "undefined");
-  const isEmpty = data?.[0]?.length === 0;
-  const isReachingEnd = isEmpty || (data && data[data.length - 1]?.length < 6);
-  const isRefreshing = isValidating && data && data.length === size;
 
   const sortedGames = useMemo(() => {
     if (!data) return [];
@@ -67,7 +56,7 @@ const Games: React.FC = () => {
 
           <Space />
 
-          <div className="flex justify-center mb-20">
+          <div className="flex justify-center mb-4">
             <p
               onClick={() => setSize(size + 1)}
               className="text-xs text-center cursor-pointer border px-4 py-4 rounded-xl"
@@ -76,6 +65,12 @@ const Games: React.FC = () => {
             </p>
           </div>
         </>
+      )}
+
+      {isValidating && data && (
+        <div className="flex justify-center">
+          <LoadingWheel />
+        </div>
       )}
     </div>
   );

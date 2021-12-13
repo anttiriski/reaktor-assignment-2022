@@ -8,7 +8,7 @@ const LiveGames = () => {
   const { data, error } = useSWR(
     "api/live",
     (url) => fetch(url).then((res) => res.json()),
-    { refreshInterval: 2000 }
+    { refreshInterval: 1500 }
   );
 
   const [open, setOpen] = useState(true);
@@ -40,9 +40,9 @@ const LiveGames = () => {
 
           <div className="space-y-3">
             {data?.games.length ? (
-              data?.games.map((game) => {
+              data?.games.map((game, index) => {
                 return (
-                  <div className="flex space-x-3" key={game.gameId}>
+                  <div className="flex space-x-3" key={index}>
                     <div className="flex grow basis-0 justify-end text-right md:whitespace-nowrap text-sm sm:text-base">
                       {game.playerA}
                     </div>

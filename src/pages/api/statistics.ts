@@ -6,6 +6,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { player } = req.query;
 
+    if (player === "null") {
+      res.status(200).json({ error: "No player specified" });
+      return;
+    }
+
     const gameHashes = await redis.smembers(`games:${player}`);
 
     const games = await GameHelper.getGames({ gameHashes });
@@ -23,7 +28,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const mostPlayedMove = GameHelper.mode(playedHands);
 
     const result = {
-      allGames: games,
+      allGames: games || [],
       gamesWon,
       mostPlayedMove,
       winPercentage: (gamesWon.length / games.length) * 100,
