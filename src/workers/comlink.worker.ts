@@ -1,22 +1,12 @@
 import * as Comlink from "comlink";
 
 export interface WorkerApi {
-  getName: typeof getName;
   initializeGames: typeof initializeGames;
 }
 
 const workerApi: WorkerApi = {
-  getName,
   initializeGames,
 };
-
-async function getName() {
-  const res = await fetch(
-    "https://random-word-api.herokuapp.com/word?number=1"
-  );
-  const json = await res.json();
-  return json[0];
-}
 
 async function initializeGames(cursor: string) {
   try {
@@ -30,7 +20,9 @@ async function initializeGames(cursor: string) {
       }),
     });
 
-    return { status: "ok" };
+    const json = await res.json();
+
+    return { ...json };
   } catch (error) {
     console.log(error);
   }

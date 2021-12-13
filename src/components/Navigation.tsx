@@ -1,9 +1,12 @@
 import { useRouter } from "next/router";
+import { useGameState } from "../contexts/GameContext";
 import Link from "next/link";
 import GameIcon from "../icons/GameIcon";
 import UserIcon from "../icons/UserIcon";
+import LoadingWheel from "./LoadingWheel";
 
 const Navigation: React.FC = () => {
+  const { hasInitialized } = useGameState();
   const router = useRouter();
 
   return (
@@ -27,6 +30,12 @@ const Navigation: React.FC = () => {
           <UserIcon />
         </div>
       </Link>
+
+      {!hasInitialized && (
+        <div>
+          <LoadingWheel />
+        </div>
+      )}
     </div>
   );
 };

@@ -10,12 +10,15 @@ export function GameContext({ children }) {
   const [selectedPlayer, setSelectedPlayer] = useState(
     initialState.selectedPlayer
   );
+  const [hasInitialized, setHasInitialized] = useState(false);
 
   return (
     <gameContext.Provider
       value={{
         selectedPlayer,
         setSelectedPlayer,
+        hasInitialized,
+        setHasInitialized,
       }}
     >
       {children}

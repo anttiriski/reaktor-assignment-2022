@@ -59,6 +59,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (shouldRefresh > 0) {
     return res.status(200).json({
       message: "No need to refresh",
+      initialized: true,
     });
   }
 
@@ -81,7 +82,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     hasNextCursor = cursor !== null;
   }
 
-  res.status(200).json({
+  return res.status(200).json({
     message: "Successfully initialized",
+    initialized: true,
   });
 };

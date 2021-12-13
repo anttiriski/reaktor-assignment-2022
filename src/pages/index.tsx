@@ -2,19 +2,21 @@ import redis from "../redis";
 import Games from "../components/Games";
 import Statistics from "../components/Statistics";
 import { GameHelper } from "../utils/GameHelper";
-import React from "react";
+import React, { useEffect } from "react";
 import * as Comlink from "comlink";
 import { WorkerApi } from "../workers/comlink.worker";
+import { useGameState } from "../contexts/GameContext";
 
 type Props = {
   cursor: string;
 };
 
 const Home: React.FC<Props> = ({ cursor }) => {
+  const { setHasInitialized } = useGameState();
   const comlinkWorkerRef = React.useRef<Worker>();
   const comlinkWorkerApiRef = React.useRef<Comlink.Remote<WorkerApi>>();
 
-  React.useEffect(() => {
+  useEffect(() => {
     comlinkWorkerRef.current = new Worker(
       new URL("../workers/comlink.worker", import.meta.url),
       {
@@ -27,7 +29,14 @@ const Home: React.FC<Props> = ({ cursor }) => {
     );
 
     // Initialize other games in the background
+    setHasInitialized(false);
     comlinkWorkerApiRef.current?.initializeGames(cursor);
+
+    comlinkWorkerRef.current.onmessage = (event) => {
+      if (event.data.value.initialized) {
+        setHasInitialized(true);
+      }
+    };
 
     return () => {
       comlinkWorkerRef.current?.terminate();
