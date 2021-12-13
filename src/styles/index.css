@@ -21,3 +21,11 @@ html {
     @apply bg-gradient-to-r from-rose-400 to-orange-300 bg-clip-text text-transparent;
   }
 }
+
+.tooltip {
+  @apply invisible absolute;
+}
+
+.has-tooltip:hover .tooltip {
+  @apply visible z-50;
+}
