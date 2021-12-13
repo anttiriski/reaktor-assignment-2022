@@ -17,13 +17,13 @@ const PaperIcon: React.FC<IconProps> = ({ ...props }) => {
         height="86"
         rx="3.5"
         stroke="black"
-        stroke-width="3"
+        strokeWidth="3"
       />
-      <line x1="11" y1="12" x2="55" y2="12" stroke="black" stroke-width="2" />
-      <line x1="11" y1="53" x2="33" y2="53" stroke="black" stroke-width="2" />
-      <line x1="11" y1="44" x2="55" y2="44" stroke="black" stroke-width="2" />
-      <line x1="11" y1="33" x2="55" y2="33" stroke="black" stroke-width="2" />
-      <line x1="11" y1="22" x2="55" y2="22" stroke="black" stroke-width="2" />
+      <line x1="11" y1="12" x2="55" y2="12" stroke="black" strokeWidth="2" />
+      <line x1="11" y1="53" x2="33" y2="53" stroke="black" strokeWidth="2" />
+      <line x1="11" y1="44" x2="55" y2="44" stroke="black" strokeWidth="2" />
+      <line x1="11" y1="33" x2="55" y2="33" stroke="black" strokeWidth="2" />
+      <line x1="11" y1="22" x2="55" y2="22" stroke="black" strokeWidth="2" />
     </svg>
   );
 };

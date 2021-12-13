@@ -28,7 +28,7 @@ const PlayersPage: React.FC = () => {
         ) : (
           data.players.map((player) => {
             return (
-              <Link href="/">
+              <Link key={player} href="/">
                 <div
                   onClick={() => handleClick(player)}
                   className="border rounded-xl px-4 py-2 cursor-pointer flex items-center"

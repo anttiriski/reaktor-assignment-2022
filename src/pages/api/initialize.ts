@@ -12,8 +12,6 @@ async function getGames(nextCursor): Promise<String> {
 
     const { cursor, data } = await res.json();
 
-    const parsedCursor = cursor.match(/=(.*)/)[1];
-
     data.forEach(async (game) => {
       const { gameId, playerA, playerB } = game;
 
@@ -38,17 +36,20 @@ async function getGames(nextCursor): Promise<String> {
       );
 
       await redis.sadd(`games:${nextCursor}`, gameId);
-      await redis.set(
-        `nextCursor:${nextCursor ? nextCursor : "0"}`,
-        parsedCursor
-      );
       await redis.sadd(`games:${playerA.name}`, gameId);
       await redis.sadd(`games:${playerB.name}`, gameId);
       await redis.sadd("players", playerA.name);
       await redis.sadd("players", playerB.name);
     });
 
-    resolve(parsedCursor);
+    if (cursor) {
+      const parsedCursor = cursor.match(/=(.*)/)[1];
+      await redis.set(
+        `nextCursor:${nextCursor ? nextCursor : "0"}`,
+        parsedCursor
+      );
+      resolve(parsedCursor);
+    }
   });
 }
 

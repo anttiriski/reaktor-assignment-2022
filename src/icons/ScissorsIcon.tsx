@@ -10,16 +10,16 @@ const ScissorsIcon: React.FC<IconProps> = ({ ...props }) => {
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <circle cx="14" cy="60" r="8.5" stroke="black" stroke-width="3" />
-      <circle cx="40" cy="60" r="8.5" stroke="black" stroke-width="3" />
+      <circle cx="14" cy="60" r="8.5" stroke="black" strokeWidth="3" />
+      <circle cx="40" cy="60" r="8.5" stroke="black" strokeWidth="3" />
       <line
         x1="2.08553"
         y1="2.38801"
         x2="35.388"
         y2="50.9145"
         stroke="black"
-        stroke-width="3"
-        stroke-linecap="round"
+        strokeWidth="3"
+        strokeLinecap="round"
       />
       <line
         x1="18.612"
@@ -27,8 +27,8 @@ const ScissorsIcon: React.FC<IconProps> = ({ ...props }) => {
         x2="51.9137"
         y2="2.38803"
         stroke="black"
-        stroke-width="3"
-        stroke-linecap="round"
+        strokeWidth="3"
+        strokeLinecap="round"
       />
     </svg>
   );

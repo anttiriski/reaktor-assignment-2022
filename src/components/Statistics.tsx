@@ -60,7 +60,7 @@ const Statistics: React.FC = ({}) => {
 
           <div className="space-y-2">
             {sortedGames.map((game) => (
-              <Game game={game} />
+              <Game key={game.gameId} game={game} />
             ))}
           </div>
 
