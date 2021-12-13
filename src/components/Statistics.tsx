@@ -3,6 +3,7 @@ import useSWR from "swr";
 import Game from "./Game";
 import Space from "./Space";
 import { useMemo } from "react";
+import PlayerMoveIcon from "./PlayerMoveIcon";
 
 const Statistics: React.FC = ({}) => {
   const { selectedPlayer } = useGameState();
@@ -45,6 +46,7 @@ const Statistics: React.FC = ({}) => {
             <div className="border w-full h-full rounded-xl p-4 flex flex-col items-start sm:flex-row sm:items-center sm:space-x-2">
               <p className="font-bold">Most played move:</p>
               <p>{data?.mostPlayedMove}</p>
+              <PlayerMoveIcon move={data?.mostPlayedMove} />
             </div>
           </div>
 

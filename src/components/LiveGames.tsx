@@ -26,49 +26,41 @@ const LiveGames = () => {
         <TrophyIcon />
       </div>
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0, y: 250 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 250 }}
-            className="flex flex-col rounded-2xl fixed right-0 bottom-0 border z-10 bg-white mb-20 sm:mb-28 mx-4 p-4 pb-10 shadow"
-          >
-            <h1 className="text-3xl font-bold text-center text-gradient">
-              Live Games
-            </h1>
+      {open && (
+        <motion.div
+          initial={{ opacity: 0, y: 250 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex flex-col rounded-2xl fixed right-0 bottom-0 border z-10 bg-white mb-20 sm:mb-28 mx-4 p-4 pb-10 shadow"
+        >
+          <h1 className="text-3xl font-bold text-center text-gradient">
+            Live Games
+          </h1>
 
-            <Space />
+          <Space />
 
-            <div className="space-y-3">
-              {data?.games.length ? (
-                data?.games.map((game) => {
-                  return (
-                    <motion.div
-                      initial={{ opacity: 0, x: -50 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      className="flex space-x-3"
-                      key={game.gameId}
-                    >
-                      <div className="flex grow basis-0 justify-end text-right md:whitespace-nowrap text-sm sm:text-base">
-                        {game.playerA}
-                      </div>
+          <div className="space-y-3">
+            {data?.games.length ? (
+              data?.games.map((game) => {
+                return (
+                  <div className="flex space-x-3" key={game.gameId}>
+                    <div className="flex grow basis-0 justify-end text-right md:whitespace-nowrap text-sm sm:text-base">
+                      {game.playerA}
+                    </div>
 
-                      <p className="text-center">vs</p>
+                    <p className="text-center">vs</p>
 
-                      <div className="flex grow basis-0 md:whitespace-nowrap text-sm sm:text-base">
-                        {game.playerB}
-                      </div>
-                    </motion.div>
-                  );
-                })
-              ) : (
-                <p>No games are currently live.</p>
-              )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                    <div className="flex grow basis-0 md:whitespace-nowrap text-sm sm:text-base">
+                      {game.playerB}
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <p>No games are currently live.</p>
+            )}
+          </div>
+        </motion.div>
+      )}
     </>
   );
 };

@@ -26,6 +26,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     );
 
     await redis.sadd("games:0", gameId);
+    await redis.sadd(`games:${playerA.name}`, gameId);
+    await redis.sadd(`games:${playerB.name}`, gameId);
     await redis.srem("games-in-progress", gameId);
 
     res.end();

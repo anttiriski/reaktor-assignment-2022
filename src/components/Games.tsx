@@ -10,13 +10,10 @@ const Games: React.FC = () => {
   const [cursor, setCursor] = useState(undefined);
 
   const getKey = (pageIndex, previousPageData) => {
-    // reached the end
     if (previousPageData && !previousPageData.games) return null;
 
-    // first page, we don't have `previousPageData`
     if (pageIndex === 0) return "api/history";
 
-    // add the cursor to the API endpoint
     return `api/history?cursor=${previousPageData.nextCursor}`;
   };
 
@@ -25,8 +22,6 @@ const Games: React.FC = () => {
     (url) => fetch(url).then((res) => res.json()),
     { initialSize: 1, refreshInterval: 2000 }
   );
-
-  console.log(data);
 
   const isLoadingInitialData = !data && !error;
   const isLoadingMore =
