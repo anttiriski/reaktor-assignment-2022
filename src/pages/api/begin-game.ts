@@ -14,7 +14,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       "playerA",
       playerA.name,
       "playerB",
-      playerB.name
+      playerB.name,
+      "timestamp",
+      Date.now()
     );
 
     res.end();
