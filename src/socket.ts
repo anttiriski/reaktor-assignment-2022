@@ -22,9 +22,6 @@ const createWebSocket = () => {
 
       case "GAME_RESULT": {
         try {
-          const playerAMove = data.playerA.played;
-          const playerBMove = data.playerB.played;
-
           return await fetch("/api/finish-game", {
             method: "POST",
             body: JSON.stringify({
@@ -32,8 +29,6 @@ const createWebSocket = () => {
               playerA,
               playerB,
               timestamp: data.t,
-              playerAMove,
-              playerBMove,
             }),
           });
         } catch (error) {

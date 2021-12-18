@@ -1,3 +1,4 @@
+import { formatDistance } from "date-fns";
 import redis from "../redis";
 
 export class GameHelper {
@@ -31,6 +32,10 @@ export class GameHelper {
     );
 
     return games;
+  }
+
+  static formatTime({ timestamp }) {
+    return formatDistance(new Date(Number(timestamp)), new Date()) + " ago";
   }
 
   static mode = (arr) => {

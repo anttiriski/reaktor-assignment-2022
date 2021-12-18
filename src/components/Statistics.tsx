@@ -32,6 +32,10 @@ const Statistics: React.FC = ({}) => {
     setLimit(10);
   }, [selectedPlayer]);
 
+  if (error) {
+    return <p>There was an error...</p>;
+  }
+
   return (
     <div className="px-4 lg:px-8 w-full lg:overflow-auto scrollbar-hide lg:pb-20">
       <h1 className="text-3xl font-bold pt-12 text-center lg:text-left text-gradient">

@@ -6,7 +6,7 @@ import LoadingWheel from "./LoadingWheel";
 import Space from "./Space";
 
 const Games: React.FC = () => {
-  const getKey = (pageIndex, previousPageData) => {
+  const getApiUrl = (pageIndex, previousPageData) => {
     if (previousPageData && !previousPageData.games) return null;
 
     if (pageIndex === 0) return "api/history";
@@ -15,7 +15,7 @@ const Games: React.FC = () => {
   };
 
   const { data, size, setSize, isValidating } = useSWRInfinite(
-    getKey,
+    getApiUrl,
     (url) => fetch(url).then((res) => res.json()),
     { initialSize: 1, refreshInterval: 1500 }
   );

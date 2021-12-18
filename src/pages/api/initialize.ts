@@ -54,11 +54,11 @@ async function getGames(nextCursor): Promise<String> {
 }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const shouldRefresh = await redis.ttl("refresh");
+  const timeToRefresh = await redis.ttl("refresh");
 
-  if (shouldRefresh > 0) {
+  if (timeToRefresh > 0) {
     return res.status(200).json({
-      message: "No need to refresh",
+      message: "Successfully initialized",
       initialized: true,
     });
   }

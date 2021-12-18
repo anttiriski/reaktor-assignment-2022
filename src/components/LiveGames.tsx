@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useState } from "react";
 import useSWR from "swr";
 import TrophyIcon from "../icons/TrophyIcon";
@@ -38,27 +38,31 @@ const LiveGames = () => {
 
           <Space />
 
-          <div className="space-y-3">
-            {data?.games.length ? (
-              data?.games.map((game, index) => {
-                return (
-                  <div className="flex space-x-3" key={index}>
-                    <div className="flex grow basis-0 justify-end text-right md:whitespace-nowrap text-sm sm:text-base">
-                      {game.playerA}
-                    </div>
+          {error ? (
+            <p className="px-4">There was an error</p>
+          ) : (
+            <div className="space-y-3">
+              {data?.games.length ? (
+                data.games.map((game, index) => {
+                  return (
+                    <div className="flex space-x-3" key={index}>
+                      <div className="flex grow basis-0 justify-end text-right md:whitespace-nowrap text-sm sm:text-base">
+                        {game.playerA}
+                      </div>
 
-                    <p className="text-center">vs</p>
+                      <p className="text-center">vs</p>
 
-                    <div className="flex grow basis-0 md:whitespace-nowrap text-sm sm:text-base">
-                      {game.playerB}
+                      <div className="flex grow basis-0 md:whitespace-nowrap text-sm sm:text-base">
+                        {game.playerB}
+                      </div>
                     </div>
-                  </div>
-                );
-              })
-            ) : (
-              <p>No games are currently live.</p>
-            )}
-          </div>
+                  );
+                })
+              ) : (
+                <p>No games are currently live.</p>
+              )}
+            </div>
+          )}
         </motion.div>
       )}
     </>

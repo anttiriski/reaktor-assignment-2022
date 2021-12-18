@@ -35,7 +35,7 @@ const Navigation: React.FC = () => {
         <div className="flex">
           <div className="has-tooltip">
             <span className="tooltip text-xs bg-white -mt-4 ml-8 text-center border rounded-xl px-4 py-2">
-              Redis is catching up...
+              The player data is loading, please wait...
             </span>
 
             <LoadingWheel />

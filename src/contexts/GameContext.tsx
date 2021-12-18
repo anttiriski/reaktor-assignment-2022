@@ -2,6 +2,7 @@ import { useState, useContext, createContext, useEffect } from "react";
 
 const initialState = {
   selectedPlayer: null,
+  hasInitialized: false,
 };
 
 const gameContext = createContext(undefined);
@@ -10,7 +11,10 @@ export function GameContext({ children }) {
   const [selectedPlayer, setSelectedPlayer] = useState(
     initialState.selectedPlayer
   );
-  const [hasInitialized, setHasInitialized] = useState(false);
+
+  const [hasInitialized, setHasInitialized] = useState(
+    initialState.hasInitialized
+  );
 
   return (
     <gameContext.Provider

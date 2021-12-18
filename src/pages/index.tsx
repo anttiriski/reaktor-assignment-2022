@@ -1,11 +1,11 @@
+import { useGameState } from "../contexts/GameContext";
+import { WorkerApi } from "../workers/comlink.worker";
+import { GameHelper } from "../utils/GameHelper";
 import redis from "../redis";
 import Games from "../components/Games";
 import Statistics from "../components/Statistics";
-import { GameHelper } from "../utils/GameHelper";
 import React, { useEffect } from "react";
 import * as Comlink from "comlink";
-import { WorkerApi } from "../workers/comlink.worker";
-import { useGameState } from "../contexts/GameContext";
 
 type Props = {
   cursor: string;
@@ -13,33 +13,33 @@ type Props = {
 
 const Home: React.FC<Props> = ({ cursor }) => {
   const { setHasInitialized } = useGameState();
-  const comlinkWorkerRef = React.useRef<Worker>();
-  const comlinkWorkerApiRef = React.useRef<Comlink.Remote<WorkerApi>>();
+  const backgroundWorker = React.useRef<Worker>();
+  const backgroundWorkerRef = React.useRef<Comlink.Remote<WorkerApi>>();
 
   useEffect(() => {
-    comlinkWorkerRef.current = new Worker(
+    backgroundWorker.current = new Worker(
       new URL("../workers/comlink.worker", import.meta.url),
       {
         type: "module",
       }
     );
 
-    comlinkWorkerApiRef.current = Comlink.wrap<WorkerApi>(
-      comlinkWorkerRef.current
+    backgroundWorkerRef.current = Comlink.wrap<WorkerApi>(
+      backgroundWorker.current
     );
 
     // Initialize other games in the background
     setHasInitialized(false);
-    comlinkWorkerApiRef.current?.initializeGames(cursor);
+    backgroundWorkerRef.current?.initializeGames(cursor);
 
-    comlinkWorkerRef.current.onmessage = (event) => {
+    backgroundWorker.current.onmessage = (event) => {
       if (event.data.value.initialized) {
         setHasInitialized(true);
       }
     };
 
     return () => {
-      comlinkWorkerRef.current?.terminate();
+      backgroundWorker.current?.terminate();
     };
   }, []);
 
@@ -63,6 +63,7 @@ export async function getServerSideProps(context) {
 
   const { cursor, data } = await res.json();
 
+  // Initialize first games on the server
   data.forEach(async (game) => {
     const { gameId, playerA, playerB } = game;
 
