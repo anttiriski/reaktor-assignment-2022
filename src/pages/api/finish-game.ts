@@ -30,7 +30,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       await redis.srem("games-in-progress", gameId),
     ]);
 
-    res.end();
+    res.status(200).end();
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

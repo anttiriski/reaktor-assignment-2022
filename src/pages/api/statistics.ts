@@ -6,12 +6,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { player } = req.query;
 
-    if (player === "null") {
+    if (!player) {
       res.status(200).json({ error: "No player specified" });
       return;
     }
 
     const gameHashes = await redis.smembers(`games:${player}`);
+
+    if (gameHashes.length === 0) {
+      res.status(200).json({ error: "No games found" });
+      return;
+    }
 
     const games = await GameHelper.getGames({ gameHashes });
 

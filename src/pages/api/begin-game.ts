@@ -19,7 +19,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       Date.now()
     );
 
-    res.end();
+    res.status(200).end();
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
