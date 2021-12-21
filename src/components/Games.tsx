@@ -17,7 +17,7 @@ const Games: React.FC = () => {
   const { data, size, setSize, isValidating } = useSWRInfinite(
     getApiUrl,
     (url) => fetch(url).then((res) => res.json()),
-    { initialSize: 1, refreshInterval: 1500 }
+    { initialSize: 1, refreshInterval: 1500, shouldRetryOnError: false }
   );
 
   const sortedGames = useMemo(() => {

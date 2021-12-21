@@ -9,7 +9,7 @@ const LiveGames = () => {
   const { data, error } = useSWR(
     "api/live",
     (url) => fetch(url).then((res) => res.json()),
-    { refreshInterval: 1500 }
+    { refreshInterval: 1500, shouldRetryOnError: false }
   );
 
   const [open, setOpen] = useState(true);
@@ -39,8 +39,8 @@ const LiveGames = () => {
 
           <Space />
 
-          {error ? (
-            <p className="px-4">There was an error</p>
+          {data?.error ? (
+            <p className="px-4">There was an error...</p>
           ) : (
             <div className="space-y-3 max-h-64 sm:max-h-96 overflow-y-scroll overscroll-contain scrollbar-hide">
               {data?.games.length ? (
@@ -72,7 +72,7 @@ const LiveGames = () => {
                   );
                 })
               ) : (
-                <p>No games are currently live.</p>
+                <p>No games are currently live...</p>
               )}
             </div>
           )}

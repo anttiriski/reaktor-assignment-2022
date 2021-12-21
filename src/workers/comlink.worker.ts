@@ -24,7 +24,9 @@ async function initializeGames(cursor: string) {
 
     return { ...json };
   } catch (error) {
-    console.log(error);
+    return {
+      error: error.message,
+    };
   }
 }
 
