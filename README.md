@@ -47,3 +47,6 @@ npm run test
 Because the amount of data coming from the bad-api, I could not find a free service to host the redis instance. This also means, that currently the application is only possible to host locally if you initialize redis using the command above.
 
 ## Images of project
+
+![image](https://user-images.githubusercontent.com/52560787/146934342-b10d2b13-7c0d-405b-b905-285ffb81a2cf.png)
+![image](https://user-images.githubusercontent.com/52560787/146934473-67b6638b-3f68-4057-85ed-d9410f4a17b2.png)
